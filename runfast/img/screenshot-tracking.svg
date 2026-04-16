@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#111114"/>
+      <stop offset="100%" stop-color="#0a0a0d"/>
+    </linearGradient>
+    <linearGradient id="route" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#60A5FA"/>
+    </linearGradient>
+  </defs>
+  <rect width="390" height="844" fill="url(#bg3)" rx="0"/>
+  <!-- Status bar -->
+  <text x="30" y="58" fill="rgba(255,255,255,0.5)" font-family="-apple-system,system-ui,sans-serif" font-size="14" font-weight="600">9:41</text>
+
+  <!-- Map area (dark map representation) -->
+  <rect x="0" y="80" width="390" height="440" fill="#0d1117"/>
+  <!-- Grid lines for map feel -->
+  <line x1="0" y1="160" x2="390" y2="160" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+  <line x1="0" y1="240" x2="390" y2="240" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+  <line x1="0" y1="320" x2="390" y2="320" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+  <line x1="0" y1="400" x2="390" y2="400" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+  <line x1="100" y1="80" x2="100" y2="520" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+  <line x1="200" y1="80" x2="200" y2="520" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+  <line x1="300" y1="80" x2="300" y2="520" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+  <!-- Route path -->
+  <path d="M80 420 Q120 380 140 340 Q160 300 200 280 Q240 260 260 220 Q280 180 310 160 Q330 150 340 180 Q350 220 320 260 Q290 300 260 340 Q230 370 200 390 Q170 410 140 430" stroke="url(#route)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Start dot -->
+  <circle cx="80" cy="420" r="6" fill="#34D399"/>
+  <!-- Current position -->
+  <circle cx="140" cy="430" r="8" fill="#3B82F6"/>
+  <circle cx="140" cy="430" r="14" fill="rgba(59,130,246,0.2)"/>
+
+  <!-- Stats panel -->
+  <rect x="0" y="520" width="390" height="324" fill="#111114"/>
+  
+  <!-- Live indicator -->
+  <circle cx="40" cy="556" r="5" fill="#34D399"/>
+  <text x="54" y="561" fill="#34D399" font-family="-apple-system,system-ui,sans-serif" font-size="13" font-weight="600">RECORDING</text>
+
+  <!-- Main stat: Time -->
+  <text x="195" y="630" fill="#fff" font-family="-apple-system,system-ui,sans-serif" font-size="56" font-weight="700" text-anchor="middle">32:14</text>
+  <text x="195" y="654" fill="rgba(255,255,255,0.35)" font-family="-apple-system,system-ui,sans-serif" font-size="13" font-weight="500" text-anchor="middle">DURATION</text>
+
+  <!-- Bottom stats row -->
+  <line x1="24" y1="680" x2="366" y2="680" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  
+  <text x="85" y="720" fill="#fff" font-family="-apple-system,system-ui,sans-serif" font-size="28" font-weight="700" text-anchor="middle">5.2</text>
+  <text x="85" y="742" fill="rgba(255,255,255,0.35)" font-family="-apple-system,system-ui,sans-serif" font-size="12" font-weight="500" text-anchor="middle">KM</text>
+
+  <line x1="163" y1="696" x2="163" y2="752" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+
+  <text x="225" y="720" fill="#fff" font-family="-apple-system,system-ui,sans-serif" font-size="28" font-weight="700" text-anchor="middle">6'12"</text>
+  <text x="225" y="742" fill="rgba(255,255,255,0.35)" font-family="-apple-system,system-ui,sans-serif" font-size="12" font-weight="500" text-anchor="middle">PACE /KM</text>
+
+  <line x1="293" y1="696" x2="293" y2="752" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+
+  <text x="340" y="720" fill="#fff" font-family="-apple-system,system-ui,sans-serif" font-size="28" font-weight="700" text-anchor="middle">148</text>
+  <text x="340" y="742" fill="rgba(255,255,255,0.35)" font-family="-apple-system,system-ui,sans-serif" font-size="12" font-weight="500" text-anchor="middle">BPM</text>
+
+  <!-- Pause button -->
+  <circle cx="195" cy="800" r="30" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+  <rect x="184" y="786" width="8" height="28" rx="2" fill="#fff"/>
+  <rect x="198" y="786" width="8" height="28" rx="2" fill="#fff"/>
+</svg>
