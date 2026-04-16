@@ -6,548 +6,548 @@
     <title>Runfa.st — Your AI Running Coach</title>
     <meta name="description" content="Runfa.st is an AI-powered running coach that builds personalized training plans for your races and goals. Track runs, set events, and let your coach guide you to race day.">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230A0A0B'/%3E%3Cg transform='translate(3,3)'%3E%3Crect x='0' y='0' width='26' height='26' rx='5.5' stroke='%23F2F4F8' stroke-width='2.2' fill='none'/%3E%3Ccircle cx='13' cy='13' r='6.2' stroke='%23F2F4F8' stroke-width='2.2' fill='none'/%3E%3Cpath d='M13 13L13 6.8A6.2 6.2 0 0 1 18.4 9.3Z' fill='%23F2F4F8'/%3E%3C/g%3E%3C/svg%3E">
+    <meta property="og:title" content="Runfa.st — Your AI Running Coach">
+    <meta property="og:description" content="A running coach that adapts to you. Set your race, track your runs, and get a plan that actually fits your life.">
+    <meta property="og:type" content="website">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #0A0A0B;
-            color: #fff;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+        :root {
+            --bg: #000;
+            --surface: #111;
+            --border: rgba(255,255,255,0.07);
+            --text: #e8e8ec;
+            --text-secondary: rgba(255,255,255,0.45);
+            --accent: #3B82F6;
         }
 
-        /* NAV */
-        nav {
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        /* ---- NAV ---- */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 24px 48px;
-            max-width: 1200px;
-            width: 100%;
+            max-width: 1120px;
             margin: 0 auto;
+            padding: 16px 32px;
         }
         .logo {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             text-decoration: none;
-            color: #fff;
+            color: var(--text);
         }
-        .logo svg { flex-shrink: 0; }
-        .logo span {
-            font-size: 22px;
-            font-weight: 800;
+        .logo-mark { width: 32px; height: 32px; }
+        .logo-text {
+            font-size: 18px;
+            font-weight: 700;
             letter-spacing: -0.02em;
         }
-        .nav-links {
+        .nav-right {
             display: flex;
             align-items: center;
-            gap: 28px;
+            gap: 24px;
         }
-        .nav-links a {
+        .nav-right a {
             font-size: 14px;
-            color: rgba(255,255,255,0.6);
+            color: var(--text-secondary);
             text-decoration: none;
-            transition: color 0.2s;
+            transition: color 0.15s;
         }
-        .nav-links a:hover { color: #fff; }
+        .nav-right a:hover { color: var(--text); }
 
-        /* HERO */
-        .hero {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 100px 24px 48px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .hero-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 100px;
-            padding: 6px 16px;
-            font-size: 13px;
-            font-weight: 600;
-            color: rgba(255,255,255,0.7);
-            margin-bottom: 28px;
-            letter-spacing: 0.02em;
-        }
-        .hero h1 {
-            font-size: clamp(36px, 5.5vw, 64px);
-            font-weight: 800;
-            letter-spacing: -0.035em;
-            line-height: 1.08;
-            margin-bottom: 24px;
-        }
-        .hero h1 em {
-            font-style: normal;
-            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.5) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hero .subtitle {
-            font-size: 18px;
-            color: rgba(255,255,255,0.5);
-            max-width: 520px;
-            line-height: 1.75;
-            margin-bottom: 40px;
-        }
-        .badges {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .badge {
+        /* ---- APP STORE BUTTON ---- */
+        .app-store-btn {
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background: rgba(255,255,255,0.08);
-            color: rgba(255,255,255,0.5);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: #fff;
+            color: #000;
             text-decoration: none;
-            padding: 12px 28px;
+            padding: 14px 28px;
             border-radius: 12px;
             font-weight: 600;
             font-size: 15px;
-            cursor: default;
+            transition: transform 0.15s, box-shadow 0.15s;
         }
-        .hero-disclaimer {
-            margin-top: 20px;
-            max-width: 640px;
-            padding: 14px 18px;
-            border-radius: 14px;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.04);
-            font-size: 13px;
-            line-height: 1.7;
-            color: rgba(255,255,255,0.68);
+        .app-store-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 30px rgba(255,255,255,0.08);
         }
-        .hero-disclaimer a {
-            color: #fff;
-            text-underline-offset: 3px;
-        }
+        .app-store-btn svg { flex-shrink: 0; }
 
-        /* DIVIDER */
-        .divider {
-            max-width: 960px;
+        /* ---- HERO ---- */
+        .hero {
+            max-width: 1120px;
             margin: 0 auto;
-            border: none;
-            border-top: 1px solid rgba(255,255,255,0.06);
+            padding: 140px 32px 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
         }
-
-        /* HOW IT WORKS */
-        .how {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 80px 24px;
-        }
-        .how .section-label {
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: rgba(255,255,255,0.35);
-            margin-bottom: 16px;
-            text-align: center;
-        }
-        .how h2 {
-            font-size: 32px;
+        .hero-text h1 {
+            font-size: 52px;
             font-weight: 800;
-            letter-spacing: -0.03em;
-            text-align: center;
+            letter-spacing: -0.04em;
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+        .hero-text p {
+            font-size: 17px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            max-width: 440px;
+            margin-bottom: 32px;
+        }
+        .hero-screenshot {
+            display: flex;
+            justify-content: center;
+        }
+        .hero-screenshot img {
+            width: 100%;
+            max-width: 420px;
+            height: auto;
+            display: block;
+        }
+
+        /* ---- SHOWCASE ---- */
+        .showcase {
+            padding: 40px 0 80px;
+            overflow: hidden;
+        }
+        .showcase-scroll {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            padding: 0 32px;
+            flex-wrap: wrap;
+        }
+        .showcase-scroll img {
+            width: 280px;
+            height: auto;
+            display: block;
+            flex-shrink: 0;
+        }
+
+        /* ---- FEATURES ---- */
+        .features {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 80px 32px;
+        }
+        .features-header {
+            max-width: 520px;
             margin-bottom: 56px;
         }
-        .steps {
-            display: flex;
-            flex-direction: column;
-            gap: 48px;
+        .features-header h2 {
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 12px;
         }
-        .step {
-            display: flex;
-            gap: 28px;
-            align-items: flex-start;
+        .features-header p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.7;
         }
-        .step-num {
-            flex-shrink: 0;
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.1);
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .f-card {
+            background: var(--surface);
+            padding: 36px 28px;
+            transition: background 0.2s;
+        }
+        .f-card:hover { background: #191920; }
+        .f-card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+        }
+        .f-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.65;
+        }
+        .f-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(59,130,246,0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            margin-bottom: 16px;
+        }
+        .f-icon svg {
+            width: 18px;
+            height: 18px;
+            color: var(--accent);
+        }
+
+        /* ---- COACH SECTION ---- */
+        .coach-section {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 100px 32px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+        .coach-text h2 {
+            font-size: 36px;
             font-weight: 800;
-            color: rgba(255,255,255,0.5);
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
         }
-        .step-content h3 {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-        .step-content p {
-            font-size: 15px;
-            color: rgba(255,255,255,0.5);
+        .coach-text > p {
+            font-size: 16px;
+            color: var(--text-secondary);
             line-height: 1.7;
+            margin-bottom: 36px;
         }
-
-        /* COACH SECTION */
-        .coach {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 80px 24px;
-            text-align: center;
-        }
-        .coach .section-label {
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: rgba(255,255,255,0.35);
-            margin-bottom: 16px;
-        }
-        .coach h2 {
-            font-size: 32px;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            margin-bottom: 20px;
-        }
-        .coach > p {
-            font-size: 16px;
-            color: rgba(255,255,255,0.5);
-            line-height: 1.8;
-            max-width: 560px;
-            margin: 0 auto 48px;
-        }
-        .coach-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            text-align: left;
-        }
-        .coach-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 16px;
-            padding: 28px 24px;
-            transition: border-color 0.2s, background 0.2s;
-        }
-        .coach-card:hover {
-            border-color: rgba(255,255,255,0.15);
-            background: rgba(255,255,255,0.05);
-        }
-        .coach-card .c-icon {
-            font-size: 24px;
-            margin-bottom: 14px;
-        }
-        .coach-card h3 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-        .coach-card p {
-            font-size: 14px;
-            color: rgba(255,255,255,0.45);
-            line-height: 1.6;
-        }
-
-        /* FEATURES */
-        .features {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 80px 24px;
-        }
-        .features .section-label {
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: rgba(255,255,255,0.35);
-            margin-bottom: 16px;
-            text-align: center;
-        }
-        .features h2 {
-            font-size: 32px;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            text-align: center;
-            margin-bottom: 48px;
-        }
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
+        .coach-points {
+            display: flex;
+            flex-direction: column;
             gap: 20px;
         }
-        .feature {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 16px;
-            padding: 28px 24px;
-            text-align: center;
-            transition: border-color 0.2s, background 0.2s;
+        .coach-point {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
         }
-        .feature:hover {
-            border-color: rgba(255,255,255,0.15);
-            background: rgba(255,255,255,0.05);
+        .coach-point-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            margin-top: 7px;
+            flex-shrink: 0;
         }
-        .feature .f-icon {
-            font-size: 28px;
-            margin-bottom: 14px;
-        }
-        .feature h3 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-        .feature p {
-            font-size: 14px;
-            color: rgba(255,255,255,0.45);
+        .coach-point p {
+            font-size: 15px;
+            color: rgba(255,255,255,0.6);
             line-height: 1.6;
         }
+        .coach-point strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+        .coach-visual {
+            display: flex;
+            justify-content: center;
+        }
+        .coach-visual img {
+            width: 100%;
+            max-width: 420px;
+            height: auto;
+            display: block;
+        }
 
-        /* CTA */
-        .cta {
+        /* ---- CTA ---- */
+        .bottom-cta {
             text-align: center;
-            padding: 64px 24px 80px;
+            padding: 80px 32px 40px;
             max-width: 560px;
             margin: 0 auto;
         }
-        .cta h2 {
-            font-size: 28px;
+        .bottom-cta h2 {
+            font-size: 32px;
             font-weight: 800;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.03em;
             margin-bottom: 12px;
         }
-        .cta p {
+        .bottom-cta > p {
             font-size: 16px;
-            color: rgba(255,255,255,0.45);
-            margin-bottom: 28px;
+            color: var(--text-secondary);
             line-height: 1.7;
-        }
-        .cta .badge {
-            cursor: default;
+            margin-bottom: 28px;
         }
 
-        /* CONTACT */
-        .contact {
-            background: #000;
-            color: #fff;
+        /* ---- DISCLAIMER ---- */
+        .disclaimer {
+            max-width: 560px;
+            margin: 0 auto;
+            padding: 20px 32px 60px;
             text-align: center;
-            padding: 64px 24px;
+        }
+        .disclaimer p {
+            font-size: 12px;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.3);
+        }
+        .disclaimer a {
+            color: rgba(255,255,255,0.5);
+            text-underline-offset: 3px;
+        }
+
+        /* ---- CONTACT ---- */
+        .contact {
+            border-top: 1px solid var(--border);
+            text-align: center;
+            padding: 64px 32px;
         }
         .contact h2 {
-            font-size: 28px;
+            font-size: 22px;
             font-weight: 700;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             letter-spacing: -0.02em;
         }
         .contact p {
-            font-size: 16px;
-            color: rgba(255,255,255,0.6);
-            margin-bottom: 24px;
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
         }
-        .contact a {
+        .contact-btn {
             display: inline-block;
-            color: #fff;
-            font-size: 16px;
+            color: var(--text);
+            font-size: 14px;
             font-weight: 600;
             text-decoration: none;
-            border: 1.5px solid #fff;
-            padding: 12px 32px;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 10px 28px;
             border-radius: 8px;
-            transition: background 0.2s, color 0.2s;
+            transition: background 0.15s, border-color 0.15s;
         }
-        .contact a:hover {
-            background: #fff;
-            color: #000;
+        .contact-btn:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.3);
         }
 
-        /* FOOTER */
+        /* ---- FOOTER ---- */
         footer {
-            border-top: 1px solid rgba(255,255,255,0.08);
+            border-top: 1px solid var(--border);
             text-align: center;
-            padding: 24px;
-            font-size: 13px;
-            color: rgba(255,255,255,0.3);
+            padding: 20px 32px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.25);
         }
         footer a {
-            color: rgba(255,255,255,0.5);
+            color: rgba(255,255,255,0.4);
             text-decoration: none;
         }
-        footer a:hover { color: #fff; }
+        footer a:hover { color: var(--text); }
 
-        /* RESPONSIVE */
-        @media (max-width: 640px) {
-            nav { padding: 20px 24px; }
-            .hero { padding: 60px 24px 40px; }
-            .coach-grid { grid-template-columns: 1fr; }
-            .feature-grid { grid-template-columns: 1fr; }
-            .step { gap: 20px; }
+        /* ---- RESPONSIVE ---- */
+        @media (max-width: 900px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+                padding-top: 120px;
+            }
+            .hero-text p { margin-left: auto; margin-right: auto; }
+            .hero-text h1 { font-size: 40px; }
+            .hero-screenshot img { max-width: 320px; }
+            .coach-section {
+                grid-template-columns: 1fr;
+                gap: 48px;
+                text-align: center;
+            }
+            .coach-section .coach-visual { order: -1; }
+            .coach-visual img { max-width: 320px; }
+            .coach-points { align-items: center; }
+            .features-header { text-align: center; margin-left: auto; margin-right: auto; }
+        }
+        @media (max-width: 700px) {
+            .features-grid { grid-template-columns: 1fr; }
+            .showcase-scroll { gap: 16px; padding: 0 20px; }
+            .showcase-scroll img { width: 220px; }
+            .nav-inner { padding: 14px 20px; }
+            .hero, .features, .coach-section { padding-left: 20px; padding-right: 20px; }
+            .features-header h2, .coach-text h2 { font-size: 28px; }
+        }
+        @media (max-width: 500px) {
+            .hero-text h1 { font-size: 32px; }
+            .showcase-scroll img { width: 200px; }
         }
     </style>
 </head>
 <body>
 
     <!-- NAV -->
-    <nav>
-        <a href="/runfast" class="logo">
-            <svg width="36" height="36" viewBox="-10 -10 212 212" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="0" y="0" width="192" height="192" rx="36" stroke="#F2F4F8" stroke-width="18" fill="none"/>
-                <circle cx="96" cy="96" r="45" stroke="#F2F4F8" stroke-width="18" fill="none"/>
-                <path d="M96 96 L96 51 A45 45 0 0 1 135 69 Z" fill="#F2F4F8"/>
-            </svg>
-            <span>Runfa.st</span>
-        </a>
-        <div class="nav-links">
-            <a href="/runfast/privacy">Privacy</a>
-            <a href="/runfast/terms">Terms</a>
+    <header class="nav">
+        <div class="nav-inner">
+            <a href="/runfast" class="logo">
+                <svg class="logo-mark" width="32" height="32" viewBox="-10 -10 212 212" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0" y="0" width="192" height="192" rx="36" stroke="#F2F4F8" stroke-width="18" fill="none"/>
+                    <circle cx="96" cy="96" r="45" stroke="#F2F4F8" stroke-width="18" fill="none"/>
+                    <path d="M96 96 L96 51 A45 45 0 0 1 135 69 Z" fill="#F2F4F8"/>
+                </svg>
+                <span class="logo-text">Runfa.st</span>
+            </a>
+            <div class="nav-right">
+                <a href="/runfast/privacy">Privacy</a>
+                <a href="/runfast/terms">Terms</a>
+                <a href="https://apps.apple.com/us/app/runfa-st/id6759449924" target="_blank" rel="noopener" class="app-store-btn" style="padding:8px 18px;font-size:13px;border-radius:8px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                    App Store
+                </a>
+            </div>
         </div>
-    </nav>
+    </header>
 
     <!-- HERO -->
     <section class="hero">
-        <div class="hero-label">✨ AI-Powered Running Coach</div>
-        <h1>Your coach to <em>race&nbsp;day.</em></h1>
-        <p class="subtitle">Set your race. Track your runs. Runfa.st's AI coach sees where you are, knows where you need to be, and builds your weekly plan to get you there.</p>
-        <div class="badges">
-            <a class="badge" href="https://apps.apple.com/us/app/runfa-st/id6759449924" target="_blank" rel="noopener">Download on the App Store</a>
+        <div class="hero-text">
+            <h1>Run with a coach that knows every&nbsp;mile.</h1>
+            <p>Set your race, track your runs. Runfa.st builds a training plan around your real fitness, your schedule, and your goals — and adjusts it week by week.</p>
+            <a href="https://apps.apple.com/us/app/runfa-st/id6759449924" target="_blank" rel="noopener" class="app-store-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                Download on the App Store
+            </a>
         </div>
-        <p class="hero-disclaimer">Runfa.st provides general fitness information only. AI coaching can make mistakes and is not medical advice. Consult a physician before starting or changing training, especially if you have any health concerns. <a href="/runfast/terms">See Terms</a>.</p>
-    </section>
-
-    <hr class="divider">
-
-    <!-- HOW IT WORKS -->
-    <section class="how">
-        <p class="section-label">How it works</p>
-        <h2>From event day to daily plan.</h2>
-        <div class="steps">
-            <div class="step">
-                <div class="step-num">1</div>
-                <div class="step-content">
-                    <h3>Set your event</h3>
-                    <p>Add a race, a half-marathon, a 5K, or just a personal target date. Your coach now knows your deadline and what you're training for.</p>
-                </div>
-            </div>
-            <div class="step">
-                <div class="step-num">2</div>
-                <div class="step-content">
-                    <h3>Run and track</h3>
-                    <p>Record your runs with GPS — route, pace, distance, elevation. Every run feeds your coach more data about your current fitness level.</p>
-                </div>
-            </div>
-            <div class="step">
-                <div class="step-num">3</div>
-                <div class="step-content">
-                    <h3>Get your weekly plan</h3>
-                    <p>Your AI coach analyzes your progress, how far out your event is, and how you're feeling — then builds a personalized weekly training plan that adapts as you go.</p>
-                </div>
-            </div>
-            <div class="step">
-                <div class="step-num">4</div>
-                <div class="step-content">
-                    <h3>Show up ready</h3>
-                    <p>No guessing, no generic programs. You arrive at race day with the right miles in your legs and confidence that you trained smart.</p>
-                </div>
-            </div>
+        <div class="hero-screenshot">
+            <img src="https://github.com/user-attachments/assets/6439198f-59e7-43c6-9805-47434659ce91" alt="Runfa.st app screenshot" loading="eager">
         </div>
     </section>
 
-    <hr class="divider">
-
-    <!-- AI COACH -->
-    <section class="coach">
-        <p class="section-label">AI Coach</p>
-        <h2>A coach that actually knows you.</h2>
-        <p>Your coach doesn't give you a cookie-cutter 12-week plan. It watches your training, understands your schedule, and adjusts every week based on real data.</p>
-        <div class="coach-grid">
-            <div class="coach-card">
-                <div class="c-icon">🎯</div>
-                <h3>Event-aware planning</h3>
-                <p>Counts down to your race and structures your training phases — base building, tempo work, tapering — so you peak at the right time.</p>
-            </div>
-            <div class="coach-card">
-                <div class="c-icon">📊</div>
-                <h3>Fitness assessment</h3>
-                <p>Looks at your recent runs, pace trends, and volume to understand where your fitness actually is — not where a generic plan assumes.</p>
-            </div>
-            <div class="coach-card">
-                <div class="c-icon">🔄</div>
-                <h3>Adaptive weekly plans</h3>
-                <p>Missed a run? Feeling tired? Crushed your tempo? Your plan updates to reflect reality, not just a rigid schedule.</p>
-            </div>
-            <div class="coach-card">
-                <div class="c-icon">💬</div>
-                <h3>Conversational check-ins</h3>
-                <p>Tell your coach how you feel. It factors in fatigue, motivation, and recovery to recommend the right intensity for each session.</p>
-            </div>
+    <!-- APP SCREENSHOTS -->
+    <section class="showcase">
+        <div class="showcase-scroll">
+            <img src="https://github.com/user-attachments/assets/73320fac-b041-441a-aaf4-4925efc5d532" alt="Runfa.st app — run history and stats" loading="lazy">
+            <img src="https://github.com/user-attachments/assets/6439198f-59e7-43c6-9805-47434659ce91" alt="Runfa.st app — training plans" loading="lazy">
+            <img src="https://github.com/user-attachments/assets/ade9971a-e9fa-45b3-8b31-5a868ecc4a82" alt="Runfa.st app — AI coaching" loading="lazy">
+            <img src="https://github.com/user-attachments/assets/3f79a0f8-58fd-4d0e-9944-0344d35d9f5b" alt="Runfa.st app — progress tracking" loading="lazy">
         </div>
     </section>
 
-    <hr class="divider">
-
-    <!-- TRACKING FEATURES -->
+    <!-- FEATURES -->
     <section class="features">
-        <p class="section-label">Tracking</p>
-        <h2>Everything you need to run.</h2>
-        <div class="feature-grid">
-            <div class="feature">
-                <div class="f-icon">⏱️</div>
-                <h3>Run History</h3>
-                <p>Browse past runs with detailed stats, splits, and route replays.</p>
+        <div class="features-header">
+            <h2>Everything you need. Nothing you don't.</h2>
+            <p>Built for runners who want a smarter way to train, not another app full of noise.</p>
+        </div>
+        <div class="features-grid">
+            <div class="f-card">
+                <div class="f-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <h3>GPS run tracking</h3>
+                <p>Route, pace, distance, elevation, heart rate. Every detail, automatically captured.</p>
             </div>
-            <div class="feature">
-                <div class="f-icon">❤️</div>
-                <h3>Health Sync</h3>
-                <p>Pulls steps and activity from Apple Health automatically.</p>
+            <div class="f-card">
+                <div class="f-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                </div>
+                <h3>Race events</h3>
+                <p>Add your race date and distance. Your coach structures every week leading up to it.</p>
             </div>
-            <div class="feature">
-                <div class="f-icon">🏁</div>
-                <h3>Events</h3>
-                <p>Add races and target dates so your coach can plan around what matters.</p>
+            <div class="f-card">
+                <div class="f-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </div>
+                <h3>Apple Health sync</h3>
+                <p>Steps, activity, workouts — pulled in automatically so your coach sees the full picture.</p>
             </div>
-            <div class="feature">
-                <div class="f-icon">🔥</div>
-                <h3>Targets</h3>
-                <p>Set weekly distance or frequency goals and track your consistency.</p>
+            <div class="f-card">
+                <div class="f-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+                </div>
+                <h3>Weekly targets</h3>
+                <p>Set distance or frequency goals and watch your consistency build over time.</p>
             </div>
+            <div class="f-card">
+                <div class="f-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <h3>Coach check-ins</h3>
+                <p>Tell your coach how you're feeling. It adjusts intensity based on fatigue and recovery.</p>
+            </div>
+            <div class="f-card">
+                <div class="f-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <h3>Run history</h3>
+                <p>Browse every past run with splits, pace charts, and route replays.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- COACH DEEP DIVE -->
+    <section class="coach-section">
+        <div class="coach-text">
+            <h2>Not another cookie-cutter&nbsp;plan.</h2>
+            <p>Most apps hand you a fixed 12-week schedule and wish you luck. Runfa.st actually watches what you do and adapts.</p>
+            <div class="coach-points">
+                <div class="coach-point">
+                    <div class="coach-point-dot"></div>
+                    <p><strong>Counts down to your race</strong> and structures base building, tempo work, and tapering so you peak on the right day.</p>
+                </div>
+                <div class="coach-point">
+                    <div class="coach-point-dot"></div>
+                    <p><strong>Reads your recent runs</strong> — pace trends, volume, consistency — to understand where your fitness actually is.</p>
+                </div>
+                <div class="coach-point">
+                    <div class="coach-point-dot"></div>
+                    <p><strong>Updates every week.</strong> Missed a run? Feeling tired? Crushed your tempo? The plan shifts to match reality.</p>
+                </div>
+            </div>
+        </div>
+        <div class="coach-visual">
+            <img src="https://github.com/user-attachments/assets/3f79a0f8-58fd-4d0e-9944-0344d35d9f5b" alt="Runfa.st app — adaptive training plan" loading="lazy">
         </div>
     </section>
 
     <!-- CTA -->
-    <section class="cta">
+    <section class="bottom-cta">
         <h2>Train with purpose.</h2>
-        <p>Stop following generic plans. Let an AI coach that knows your runs, your schedule, and your race build the plan for you.</p>
-        <a class="badge" href="https://apps.apple.com/us/app/runfa-st/id6759449924" target="_blank" rel="noopener">Download on the App Store</a>
+        <p>Your next race deserves better than a generic plan. Let a coach that knows your runs build the path to get you there.</p>
+        <a href="https://apps.apple.com/us/app/runfa-st/id6759449924" target="_blank" rel="noopener" class="app-store-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            Download on the App Store
+        </a>
     </section>
+
+    <!-- DISCLAIMER -->
+    <div class="disclaimer">
+        <p>Runfa.st provides general fitness information only. AI coaching can make mistakes and is not medical advice. Consult a physician before starting or changing training, especially if you have any health concerns. <a href="/runfast/terms">See Terms</a>.</p>
+    </div>
 
     <!-- CONTACT -->
     <section class="contact">
-        <h2>Let's talk</h2>
-        <p>Have questions? We'd love to hear from you.</p>
-        <a href="mailto:support@tapable.app">Contact us</a>
+        <h2>Questions?</h2>
+        <p>We'd love to hear from you.</p>
+        <a href="mailto:support@tapable.app" class="contact-btn">Get in touch</a>
     </section>
 
     <!-- FOOTER -->
     <footer>
-        <div style="margin-bottom:8px;">
-            <a href="/runfast/privacy">Privacy Policy</a>
-            <span style="margin:0 8px;opacity:0.3;">·</span>
-            <a href="/runfast/terms">Terms &amp; Conditions</a>
-        </div>
-        &copy; 2026 Runfa.st. All rights reserved.
+        <a href="/runfast/privacy">Privacy</a>
+        <span style="margin:0 8px;opacity:0.3;">&middot;</span>
+        <a href="/runfast/terms">Terms</a>
+        <span style="margin:0 8px;opacity:0.3;">&middot;</span>
+        &copy; 2025 Runfa.st
     </footer>
 
 </body>
